@@ -1,5 +1,4 @@
 import speech_recognition as sr
-import os
 import sys
 import pyttsx3
 from deeppavlov.skills.pattern_matching_skill import PatternMatchingSkill
@@ -8,15 +7,17 @@ from deeppavlov.agents.default_agent.default_agent import DefaultAgent
 from deeppavlov.agents.processors.highest_confidence_selector import HighestConfidenceSelector
 
 
+engine = pyttsx3.init()
+engine.setProperty('voice', 'russian')
+
+engine.setProperty('rate', 100)
+
 def talk(words):
     print(words)
-    if os.name == 'nt':
-        engine = pyttsx3.init()
-        engine.say(words)
-        engine.runAndWait()
-    else:
-        os.system("say " + words)
+    engine.say(words)
+    engine.runAndWait()
 
+talk("Добрый день!")
 
 def command():
     r = sr.Recognizer()
