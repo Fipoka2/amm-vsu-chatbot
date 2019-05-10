@@ -13,11 +13,11 @@ class ChatBot(abc.ABC):
 
 
 class AmmChatBot(ChatBot):
-    def __init__(self):
+    def __init__(self, path):
         faq = SimilarityMatchingSkill(data_path='dataset_vsu_qa.csv',
                                       x_col_name='Question',
                                       y_col_name='Answer',
-                                      save_load_path='./model',
+                                      save_load_path=path,
                                       config_type='tfidf_autofaq',
                                       edit_dict={},
                                       train=False)
