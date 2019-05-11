@@ -108,13 +108,15 @@ class Speaker:
 
 class CustomSpeaker:
 
-    def __init__(self, chatbot: ChatBot, engine: Engine = PyttsxEngine()):
+    def __init__(self, chatbot: ChatBot, engine: Engine = PyttsxEngine(), signal=None):
         self.isrecording = False
         self._pa = pyaudio.PyAudio()
         self._engine = engine
         self._chatbot = chatbot
         self._recognizer = sr.Recognizer()
         self._audio = None
+
+        self._signal = signal
         self.thread: RecordThread = None
 
     def recognize(self):
@@ -146,11 +148,16 @@ class CustomSpeaker:
 
         self._audio = sr.AudioData(frame_data, RATE, SAMPLE_WIDTH)
 
-    def thread_rec(self, callback):
+    def thread_rec(self):
         self._engine.talk("Говорите")
         self.isrecording = True
-        self.thread = RecordThread(self._pa, callback)
+        self.thread = RecordThread(self._pa, self._thread_callback)
         self.thread.start()
+
+    def _thread_callback(self, audio):
+        self._audio = audio
+        text = self.recognize()
+        self._signal.emit(text)
 
     def thread_stop(self):
         self.thread.stop()

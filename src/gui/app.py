@@ -1,11 +1,14 @@
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import pyqtSignal, QObject
 
 import src.gui.design as design
 import sys
 from PyQt5 import QtWidgets
-from PyQt5 import QtCore
 import src.speaker as sp
 from src.chatbot import AmmChatBot
+
+
+class ThreadSignal(QObject):
+    signal = pyqtSignal(str)
 
 
 class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
@@ -17,6 +20,10 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
         self.sendButton.clicked.connect(self._send)
         self.speakButton.clicked.connect(self._record)
 
+        signal = ThreadSignal()
+        signal.signal.connect(self._update)
+        self.speaker._signal = signal.signal
+
     def _send(self):
         text = self.messageBox.text()
         self.listWidget.addItem("Вы: " + text)
@@ -27,13 +34,14 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
         if self.speaker.isrecording:
             self.speaker.thread_stop()
         else:
-            self.speaker.thread_rec(self._recognize)
+            self.speaker.thread_rec()
 
-    def _recognize(self, audio):
-        self.speaker._audio = audio
+    def _recognize(self):
         text = self.speaker.recognize()
         self.messageBox.setText(text)
 
+    def _update(self, text):
+        self.messageBox.setText(text)
 
 
 def main():
@@ -45,4 +53,3 @@ def main():
 
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     main()
-
