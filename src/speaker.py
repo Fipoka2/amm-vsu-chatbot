@@ -62,7 +62,7 @@ class RecordThread(threading.Thread):
                                input=True,
                                frames_per_buffer=CHUNK)
         while not self._stop_event.is_set():
-            buffer = stream.read(CHUNK)
+            buffer = stream.read(CHUNK, exception_on_overflow=False)
             frames.write(buffer)
             print("* recording")
 
@@ -136,7 +136,7 @@ class CustomSpeaker:
                                input=True,
                                frames_per_buffer=CHUNK)
         while self.isrecording:
-            buffer = stream.read(CHUNK)
+            buffer = stream.read(CHUNK, exception_on_overflow=False)
             frames.write(buffer)
             print("* recording")
 
