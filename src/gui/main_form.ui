@@ -26,7 +26,7 @@
          </size>
         </property>
         <property name="text">
-         <string>send</string>
+         <string>отправить</string>
         </property>
        </widget>
       </item>
@@ -52,7 +52,7 @@
          </size>
         </property>
         <property name="text">
-         <string>speak</string>
+         <string>запись</string>
         </property>
        </widget>
       </item>

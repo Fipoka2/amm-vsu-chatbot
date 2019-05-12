@@ -19,7 +19,7 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
         self.speaker = sp.CustomSpeaker(AmmChatBot('../model'))
         self.sendButton.clicked.connect(self._send)
         self.speakButton.clicked.connect(self._record)
-
+        self._update_button_style()
         signal = ThreadSignal()
         signal.signal.connect(self._update)
         self.speaker._signal = signal.signal
@@ -32,9 +32,12 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
 
     def _record(self):
         if self.speaker.isrecording:
+            self.sendButton.setEnabled(True)
             self.speaker.thread_stop()
         else:
+            self.sendButton.setEnabled(False)
             self.speaker.thread_rec()
+        self._update_button_style()
 
     def _recognize(self):
         text = self.speaker.recognize()
@@ -43,13 +46,19 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
     def _update(self, text):
         self.messageBox.setText(text)
 
+    def _update_button_style(self):
+        if self.speaker.isrecording:
+            self.speakButton.setText("стоп")
+        else:
+            self.speakButton.setText("запись")
+
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
-    window = ChatBotApp()  # Создаём объект класса ExampleApp
-    window.show()  # Показываем окно
-    app.exec_()  # и запускаем приложение
+    app = QtWidgets.QApplication(sys.argv)
+    window = ChatBotApp()
+    window.show()
+    app.exec_()
 
 
-if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
+if __name__ == '__main__':
     main()

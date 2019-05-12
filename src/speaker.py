@@ -1,40 +1,15 @@
-import abc
 import io
 import threading
 
 import pyaudio
-import pyttsx3
 import speech_recognition as sr
 from src.chatbot import ChatBot
+from src.engine import Engine, PyttsxEngine
 
 RATE = 44100
 CHUNK = 3024
 FORMAT = pyaudio.paInt16
 SAMPLE_WIDTH = pyaudio.get_sample_size(FORMAT)
-
-
-class Engine(abc.ABC):
-
-    @abc.abstractmethod
-    def __init__(self):
-        pass
-
-    @abc.abstractmethod
-    def talk(self, text):
-        pass
-
-
-class PyttsxEngine(Engine):
-
-    def __init__(self):
-        super().__init__()
-        self._engine = pyttsx3.init()
-        self._engine.setProperty('voice', 'russian')
-        self._engine.setProperty('rate', 100)
-
-    def talk(self, text):
-        self._engine.say(text)
-        self._engine.runAndWait()
 
 
 class RecordThread(threading.Thread):
@@ -43,7 +18,6 @@ class RecordThread(threading.Thread):
         super(RecordThread, self).__init__()
         self._stop_event = threading.Event()
         self.audio = None
-        self.isrunning = False
         self._pa = pa
         self.callback = callback
 
@@ -55,7 +29,6 @@ class RecordThread(threading.Thread):
     #     super(RecordThread,self).join(*args, **kwargs)
 
     def run(self):
-        self.isrunning = True
         frames = io.BytesIO()
         stream = self._pa.open(format=FORMAT, channels=1,
                                rate=RATE,
@@ -71,7 +44,6 @@ class RecordThread(threading.Thread):
         frames.close()
 
         self.audio = sr.AudioData(frame_data, RATE, SAMPLE_WIDTH)
-        self.isrunning = False
         self.callback(self.audio)
 
 
@@ -149,10 +121,10 @@ class CustomSpeaker:
         self._audio = sr.AudioData(frame_data, RATE, SAMPLE_WIDTH)
 
     def thread_rec(self):
-        self._engine.talk("Говорите")
         self.isrecording = True
         self.thread = RecordThread(self._pa, self._thread_callback)
         self.thread.start()
+        self._engine.talk("Говорите")
 
     def _thread_callback(self, audio):
         self._audio = audio

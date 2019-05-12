@@ -43,7 +43,7 @@ class Ui_mainWindow(object):
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "MainWindow"))
-        self.sendButton.setText(_translate("mainWindow", "send"))
-        self.speakButton.setText(_translate("mainWindow", "speak"))
+        self.sendButton.setText(_translate("mainWindow", "отправить"))
+        self.speakButton.setText(_translate("mainWindow", "запись"))
 
 
