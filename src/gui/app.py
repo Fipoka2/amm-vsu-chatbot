@@ -3,8 +3,8 @@ from PyQt5.QtCore import pyqtSignal, QObject
 import src.gui.design as design
 import sys
 from PyQt5 import QtWidgets
-import src.speaker as sp
-from src.chatbot import AmmChatBot
+import src.voice.speaker as sp
+from src.core.chatbot import AmmChatBot
 
 
 class ThreadSignal(QObject):

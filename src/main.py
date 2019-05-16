@@ -1,6 +1,6 @@
-from src.chatbot import AmmChatBot
-from src.speaker import Speaker
-from src.engine import PyttsxEngine
+from src.core.chatbot import AmmChatBot
+from src.voice.speaker import Speaker
+from src.voice.engine import PyttsxEngine
 
 chatbot = AmmChatBot()
 engine = PyttsxEngine()

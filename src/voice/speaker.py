@@ -3,8 +3,8 @@ import threading
 
 import pyaudio
 import speech_recognition as sr
-from src.chatbot import ChatBot
-from src.engine import Engine, PyttsxEngine
+from src.core.chatbot import ChatBot
+from src.voice.engine import Engine, PyttsxEngine
 
 RATE = 44100
 CHUNK = 3024
