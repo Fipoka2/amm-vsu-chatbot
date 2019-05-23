@@ -2,13 +2,12 @@ from flask import Flask, jsonify, make_response, request, abort
 from src.server.pool import BotPool
 
 BOTS_COUNT = 10
-botpool = None
+botpool = BotPool(BOTS_COUNT)
 
 app = Flask(__name__)
 
 
 def run(dev: bool = False):
-    botpool = BotPool(BOTS_COUNT)
     if dev:
         app.run(debug=True, host='0.0.0.0')
     else:
