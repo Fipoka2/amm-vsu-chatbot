@@ -3,7 +3,8 @@ from enum import Enum
 
 
 class Action(Enum):
-    SERVER = 'server'
+    SERVER_PROD = 'server'
+    SERVER_DEV = 'server_dev'
     RELOAD_MODEL = 'reload'
     GUI = 'gui'
 
@@ -22,8 +23,11 @@ if __name__ == '__main__':
     elif opts.action == Action.GUI:
         from src.gui import app
         app.main()
-    elif opts.action == Action.SERVER:
+    elif opts.action == Action.SERVER_PROD:
         from src.server import server
         server.run()
+    elif opts.action == Action.SERVER_DEV:
+        from src.server import server
+        server.run(dev=True)
     else:
         print("Wrong action!")
