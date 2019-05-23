@@ -1,0 +1,6 @@
+deeppavlov==0.2.0
+Flask==1.0.2
+pyttsx3==2.7
+SpeechRecognition==3.8.1
+PyQt5==5.12.2
+pyaudio==0.2.11
