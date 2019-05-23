@@ -22,6 +22,10 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
-if __name__ == '__main__':
+def run():
     botpool = BotPool(BOTS_COUNT)
     app.run(debug=True)
+
+
+if __name__ == '__main__':
+    run()

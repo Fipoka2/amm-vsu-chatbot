@@ -16,7 +16,7 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.speaker = sp.CustomSpeaker(AmmChatBot('../model'))
+        self.speaker = sp.CustomSpeaker(AmmChatBot('src/core/model'))
         self.sendButton.clicked.connect(self._send)
         self.speakButton.clicked.connect(self._record)
         self._update_button_style()
