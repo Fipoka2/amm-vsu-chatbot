@@ -1,8 +1,10 @@
-from deeppavlov.skills.pattern_matching_skill import PatternMatchingSkill
-from deeppavlov.contrib.skills.similarity_matching_skill import SimilarityMatchingSkill
-from deeppavlov.agents.default_agent.default_agent import DefaultAgent
-from deeppavlov.agents.processors.highest_confidence_selector import HighestConfidenceSelector
+
 import abc
+
+from deeppavlov.deprecated.agents.default_agent import DefaultAgent
+from deeppavlov.deprecated.agents.processors import HighestConfidenceSelector
+from deeppavlov.deprecated.skills.pattern_matching_skill import PatternMatchingSkill
+from deeppavlov.deprecated.skills.similarity_matching_skill import SimilarityMatchingSkill
 
 
 class ChatBot(abc.ABC):
