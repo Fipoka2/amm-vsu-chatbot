@@ -1,4 +1,6 @@
-from deeppavlov.contrib.skills.similarity_matching_skill import SimilarityMatchingSkill
+from deeppavlov.deprecated.skills.similarity_matching_skill import SimilarityMatchingSkill
+
+SimilarityMatchingSkill
 
 
 def reload():
