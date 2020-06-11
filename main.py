@@ -6,6 +6,7 @@ class Action(Enum):
     SERVER_PROD = 'server'
     SERVER_DEV = 'server_dev'
     RELOAD_MODEL = 'reload'
+    TRAIN_MODEL = 'train_model'
     GUI = 'gui'
 
     def __str__(self):

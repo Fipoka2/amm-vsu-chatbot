@@ -3,6 +3,7 @@ import abc
 
 from deeppavlov.deprecated.agents.default_agent import DefaultAgent
 from deeppavlov.deprecated.agents.processors import HighestConfidenceSelector
+
 from deeppavlov.deprecated.skills.pattern_matching_skill import PatternMatchingSkill
 from deeppavlov.deprecated.skills.similarity_matching_skill import SimilarityMatchingSkill
 
@@ -16,7 +17,7 @@ class ChatBot(abc.ABC):
 
 class AmmChatBot(ChatBot):
     def __init__(self, path):
-        faq = SimilarityMatchingSkill(data_path='dataset_vsu_qa.csv',
+        faq = SimilarityMatchingSkill(data_path='data/dataset_vsu_qa.csv',
                                       x_col_name='Question',
                                       y_col_name='Answer',
                                       save_load_path=path,
@@ -35,10 +36,10 @@ class AmmChatBot(ChatBot):
         self._agent = DefaultAgent([hello, bye, faq, fallback],
                                    skills_selector=HighestConfidenceSelector())
 
-    def ask(self, question: str) -> str:
+    def ask(self, question: str):
         answers = self._agent([question], [0])
         self._dialog.append((question, answers[0]))
-        return answers[0]
+        return answers
 
     def get_dialog(self) -> list:
         return self._dialog
