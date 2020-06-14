@@ -4,10 +4,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
 import src.server.routing as routing
-from src.core.chatbot2 import NewAmmChatBot
-from src.server.db_provider import UserProvider
+from src.core.chatbot import AmmChatBot
 from src.server.models import UsersModel, db, QuestionsModel, UserDialogModel
-from src.server.pool import BotPool
 
 
 class ExtendedJSONEncoder(JSONEncoder):
@@ -23,7 +21,8 @@ class ExtendedJSONEncoder(JSONEncoder):
         return super(ExtendedJSONEncoder, self).default(obj)
 
 
-chatbot = NewAmmChatBot("src/core/data/dataset_vsu_qa.csv")
+chatbot = AmmChatBot(config_path="src/core/configs/fasttext.json",
+                     data_path="src/core/data/dataset_vsu_qa.csv", train=True)
 
 app = Flask(__name__)
 app.json_encoder = ExtendedJSONEncoder
@@ -63,7 +62,13 @@ def ask():
 
 @app.route(routing.NEW_USER, methods=['GET'])
 def create_user():
-    user_id = UserProvider.add_user()
+    try:
+        user_id = UsersModel.generate_id()
+        result = db.session.add(UsersModel(user_id=user_id))
+        db.session.commit()
+    except SQLAlchemyError:
+        return make_response(jsonify({'error': 'Internal server error'}), 500)
+
     return jsonify({
         'user_id': user_id
     })
