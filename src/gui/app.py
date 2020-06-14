@@ -4,7 +4,7 @@ import src.gui.design as design
 import sys
 from PyQt5 import QtWidgets
 import src.voice.speaker as sp
-from src.core.chatbot import AmmChatBot
+from src.core.deprecated_chatbot import DeprecatedAmmChatBot
 
 
 class ThreadSignal(QObject):
@@ -16,7 +16,7 @@ class ChatBotApp(QtWidgets.QMainWindow, design.Ui_mainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.speaker = sp.CustomSpeaker(AmmChatBot('src/core/model'))
+        self.speaker = sp.CustomSpeaker(DeprecatedAmmChatBot('src/core/model'))
         self.sendButton.clicked.connect(self._send)
         self.speakButton.clicked.connect(self._record)
         self._update_button_style()

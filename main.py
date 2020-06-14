@@ -6,6 +6,7 @@ class Action(Enum):
     SERVER_PROD = 'server'
     SERVER_DEV = 'server_dev'
     RELOAD_MODEL = 'reload'
+    TRAIN_MODEL = 'train_model'
     GUI = 'gui'
 
     def __str__(self):
@@ -18,8 +19,9 @@ if __name__ == '__main__':
     opts = parser.parse_args()
 
     if opts.action == Action.RELOAD_MODEL:
-        from src.core import reload_model
-        reload_model.reload()
+        pass
+    if opts.action == Action.TRAIN_MODEL:
+        pass
     elif opts.action == Action.GUI:
         from src.gui import app
         app.main()

@@ -3,7 +3,7 @@ import threading
 
 import pyaudio
 import speech_recognition as sr
-from src.core.chatbot import ChatBot
+from src.core.deprecated_chatbot import ChatBot
 from src.voice.engine import Engine, PyttsxEngine
 
 RATE = 44100
