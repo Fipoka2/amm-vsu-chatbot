@@ -55,8 +55,7 @@ def ask():
 
         db.session.commit()
         return jsonify({'answer': answer})
-    except SQLAlchemyError as err:
-        print(err)
+    except SQLAlchemyError:
         return make_response(jsonify({'error': 'Internal server error'}), 500)
 
 
@@ -79,8 +78,10 @@ def get_dialog():
     user_id = request.headers.get('user_id')
     if user_id is None:
         abort(403)
-
-    dialog = db.session.query(UserDialogModel).filter(UserDialogModel.user_id == user_id).all()
+    try:
+        dialog = db.session.query(UserDialogModel).filter(UserDialogModel.user_id == user_id).all()
+    except SQLAlchemyError:
+        return make_response(jsonify({'error': 'Internal server error'}), 500)
     return jsonify(dialog)
 
 
@@ -89,15 +90,16 @@ def delete_dialog():
     user_id = request.headers.get('user_id')
     if user_id is None:
         abort(403)
-
-    UserDialogModel.query.filter(UserDialogModel.user_id == user_id).delete()
-    db.session.commit()
+    try:
+        UserDialogModel.query.filter(UserDialogModel.user_id == user_id).delete()
+        db.session.commit()
+    except SQLAlchemyError:
+        return make_response(jsonify({'error': 'Internal server error'}), 500)
     return jsonify(success=True)
 
 
 @app.errorhandler(404)
 def not_found(error):
-    print(UsersModel.query.all())
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 

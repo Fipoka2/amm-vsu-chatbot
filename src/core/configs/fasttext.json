@@ -47,7 +47,7 @@
         "class_name": "fasttext",
         "id": "my_embedder",
         "in": "q_token_lemmas",
-        "load_path": "{DOWNLOADS_PATH}/embeddings/lenta_lower_100.bin",
+        "load_path": "{MODELS_PATH}/embeddings/lenta_lower_100.bin",
         "out": "tokens_fasttext_vectors"
       },
       {
